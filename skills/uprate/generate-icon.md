@@ -60,33 +60,37 @@ curl -s -X POST https://uprate.app/api/cli/generate/ideas \
 
 Parse the `ideas` array from the response. Present them to the user via AskUserQuestion with each idea as an option. The user can also write their own via the "Other" option.
 
-### Step 4: Check Authentication
+### Step 4: Get Access Token
 
-Check if the user has an API key configured:
-
-```bash
-cat ~/.uprate/config.json 2>/dev/null
-```
-
-If the file doesn't exist or has no `apiKey` field, show this message:
-
-```
-To generate your icon, you need an Uprate API key.
-
-1. Sign up or log in at https://uprate.app
-2. Go to Settings → API Keys
-3. Create a new key and paste it below
-```
-
-Use AskUserQuestion with a single option "I have my key" (the user will paste it via Other).
-
-Once the user provides a key, save it:
+Check `~/.uprate/config.json` for an existing token:
 
 ```bash
-mkdir -p ~/.uprate && cat > ~/.uprate/config.json << 'KEYEOF'
-{"apiKey": "<the_key_they_provided>"}
-KEYEOF
+cat ~/.uprate/config.json 2>/dev/null || echo "{}"
 ```
+
+**If `apiKey` is present** — use it as the Bearer token. Skip to Step 5.
+
+**If `guestToken` is present** — use it as the Bearer token. Skip to Step 5.
+
+**If neither exists** — create a guest session automatically:
+
+```bash
+RESPONSE=$(curl -s -X POST https://app.upratehq.com/api/cli/session \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json")
+
+TOKEN=$(echo "$RESPONSE" | grep -o '"token":"[^"]*"' | cut -d'"' -f4)
+
+if [ -z "$TOKEN" ]; then
+  echo "Could not connect to Uprate. Please check your internet connection and try again."
+  exit 1
+fi
+
+mkdir -p ~/.uprate
+echo "{\"guestToken\": \"$TOKEN\"}" > ~/.uprate/config.json
+```
+
+Use `$TOKEN` as the Bearer token for Step 5.
 
 ### Step 5: Generate the Icon
 
@@ -121,11 +125,11 @@ Parse the response for `view_url` and `request_id`.
 Show the user:
 
 ```
-Your icon is being generated!
+Your icon is generating! It will be ready in about 30 seconds.
 
-View your icon at: {view_url}
+View it here: {view_url}
 
-The generation usually takes 15-30 seconds. You can check the status anytime at the URL above.
+💡 Sign in or create a free Uprate account at that link to save this icon to your library.
 ```
 
 Done! Do not proceed with any additional steps unless the user asks.
