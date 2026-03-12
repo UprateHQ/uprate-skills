@@ -36,7 +36,7 @@ Does this look right?
 
 Use AskUserQuestion with options: "Looks correct" and "I want to adjust" (with Other option for custom input).
 
-### Step 2: Prefetch Styles, Ideas, and Auth Token
+### Step 2: Prefetch Styles and Auth Token
 
 Spawn a general-purpose subagent with this exact prompt (substituting `<app_description>` with the actual description):
 
@@ -55,23 +55,30 @@ Do the following tasks and return ALL results as a single JSON object. Do not st
 3. Fetch styles:
    curl -s https://app.upratehq.com/api/cli/styles
 
-4. Fetch ideas (use the actual app description):
-   curl -s -X POST https://app.upratehq.com/api/cli/generate/ideas \
-     -H 'Content-Type: application/json' \
-     -d '{"description": "<app_description>"}'
-
 Return this JSON (fill in real values):
 {
   "token": "<apiKey or guestToken value>",
-  "styles": [<styles array from API, or [] on failure>],
-  "ideas": [<ideas array from API, or [] on failure>]
+  "styles": [<styles array from API, or [] on failure>]
 }
 ```
 
-Parse the subagent's JSON output to get `token`, `styles`, and `ideas`.
+Parse the subagent's JSON output to get `token` and `styles`.
 
 - If `styles` is empty, load styles from the `uprate:references:icon-styles` skill as fallback.
-- If `ideas` is empty, ask the user to describe what they want the icon to look like.
+
+Using the app metadata from Step 1 (name, description, category, colors), generate exactly 4 icon concept ideas yourself. Follow these rules:
+- STYLE-AGNOSTIC: Must work equally well as 3D, flat, or modern symbol
+- EXTREMELY SIMPLE: Maximum 2 visual elements combined
+- ICONIC: Instantly recognizable as a single shape or silhouette
+- SYMBOLIC: Represent the app's core purpose through a visual metaphor
+- Must work as a simple silhouette — think logo mark, not illustration
+- Should be drawable in under 10 seconds — one clear focal point
+- Avoid: multiple separate elements, scenes or environments, complex transformations, detailed illustrations, fine details
+- Avoid animation language: "emanating", "rippling", "trailing"
+- Avoid text or letters unless the app name is the core concept
+- Each idea: 10-15 words maximum
+
+If you lack sufficient context about the app (all Step 1 fields were null), ask the user to describe what they want the icon to look like.
 
 Present styles to the user via AskUserQuestion. Each style should be an option with its name as the label and a short description.
 
