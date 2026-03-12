@@ -59,6 +59,10 @@ Ask the following questions one at a time using AskUserQuestion:
 
 Using all context from Steps 1 and 2, generate the following five pieces of copy. Present each in a labeled code block so the user can easily copy them.
 
+**Writing style rules — apply to ALL generated copy below:**
+- Never use em dashes (—)
+- Minimize use of regular dashes (-) — prefer commas, periods, or restructuring the sentence instead
+
 **Tagline**
 - Maximum 60 characters
 - No trailing punctuation
