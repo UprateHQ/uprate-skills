@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="assets/logo.svg#gh-light-mode-only" alt="Uprate" width="260" height="58" />
+  <img src="assets/logo-dark.svg#gh-dark-mode-only" alt="Uprate" width="260" height="58" />
+</p>
+
 # Uprate Skills for Claude Code
 
 AI-powered tools for mobile app developers, right in your terminal.
