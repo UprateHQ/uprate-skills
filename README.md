@@ -46,6 +46,17 @@ Generate user-facing release notes from your git history:
 
 Works entirely locally — no API calls or accounts needed.
 
+### `/uprate generate-privacy-policy` — Privacy Policy Generator
+
+Generate a ready-to-publish privacy policy from your codebase context:
+
+1. Scans your project for data collection practices and third-party SDKs
+2. Asks targeted questions about your business and jurisdiction
+3. Generates a plain-language privacy policy tailored to your app
+4. Saves or displays the result — ready for App Store or Google Play
+
+Works entirely offline — no external API calls required.
+
 ## Uninstall
 
 ```bash
