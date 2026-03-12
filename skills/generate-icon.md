@@ -41,7 +41,7 @@ Use AskUserQuestion with options: "Looks correct" and "I want to adjust" (with O
 Run this command to get available styles:
 
 ```bash
-curl -s https://uprate.app/api/cli/styles
+curl -s https://app.upratehq.com/api/cli/styles
 ```
 
 Parse the JSON response. Present styles to the user via AskUserQuestion. Each style should be an option with its name as the label and a short description.
@@ -53,7 +53,7 @@ If the API call fails, use the styles from `~/.claude/commands/uprate/references
 Run this command with the app description:
 
 ```bash
-curl -s -X POST https://uprate.app/api/cli/generate/ideas \
+curl -s -X POST https://app.upratehq.com/api/cli/generate/ideas \
   -H 'Content-Type: application/json' \
   -d '{"description": "<app_description>"}'
 ```
@@ -103,7 +103,7 @@ cat ~/.uprate/config.json
 Submit the generation request:
 
 ```bash
-curl -s -X POST https://uprate.app/api/cli/generate \
+curl -s -X POST https://app.upratehq.com/api/cli/generate \
   -H 'Content-Type: application/json' \
   -H 'Authorization: Bearer <api_key>' \
   -d '{
@@ -116,7 +116,7 @@ curl -s -X POST https://uprate.app/api/cli/generate \
 
 If the response is 401, tell the user their API key is invalid and ask them to create a new one (go back to Step 4).
 
-If the response is 429, tell the user they've reached their monthly limit and suggest upgrading at https://uprate.app/settings/billing.
+If the response is 429, tell the user they've reached their monthly limit and suggest upgrading at https://app.upratehq.com/settings/billing.
 
 ### Step 6: Show the Result
 
@@ -125,7 +125,7 @@ Parse the response for `request_id` (UUID), and also read `view_url` if the API 
 Build the final preview link like this:
 
 1. If `view_url` exists in the response, use it.
-2. If `view_url` is missing but `request_id` exists, build: `https://uprate.app/icons/new/{request_id}`.
+2. If `view_url` is missing but `request_id` exists, build: `https://app.upratehq.com/icons/new/{request_id}`.
 3. If neither exists, show an error and ask the user to retry generation.
 
 Show the user:
