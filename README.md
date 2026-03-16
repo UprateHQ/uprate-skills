@@ -56,8 +56,6 @@ Generate user-facing release notes from your git history:
 3. Formats for App Store, Google Play, and/or GitHub Release
 4. Outputs copy-ready text with character limits respected
 
-Works entirely locally — no API calls or accounts needed.
-
 ---
 
 ### 🔒 `/uprate generate-privacy-policy` — Privacy Policy Generator
@@ -69,8 +67,6 @@ Generate a ready-to-publish privacy policy from your codebase context:
 3. Generates a plain-language privacy policy tailored to your app
 4. Saves or displays the result — ready for App Store or Google Play
 
-Works entirely offline — no external API calls required.
-
 ---
 
 ### 📄 `/uprate generate-terms-of-service` — Terms of Service Generator
@@ -81,8 +77,6 @@ Generate a customized Terms of Service for your mobile app:
 2. Asks clarifying questions about your app and business
 3. Generates a plain-language Terms of Service as markdown
 4. Saves the document to your project directory
-
-No external APIs — works entirely from local codebase analysis and your input.
 
 ---
 
