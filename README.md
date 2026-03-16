@@ -24,18 +24,30 @@ curl -fsSL https://raw.githubusercontent.com/cleevio-agents/uprate-skills/main/i
 
 ## Skills
 
-### `/uprate generate-icon` — Icon Generator ✦
+| Command | Description |
+|---|---|
+| [`/uprate generate-icon`](#uprate-generate-icon--icon-generator) | Generate a production-ready app icon |
+| [`/uprate generate-changelog`](#uprate-generate-changelog--release-notes-generator) | Release notes from git history |
+| [`/uprate generate-privacy-policy`](#uprate-generate-privacy-policy--privacy-policy-generator) | Privacy policy from codebase context |
+| [`/uprate generate-terms-of-service`](#uprate-generate-terms-of-service--terms-of-service-generator) | Terms of Service for your mobile app |
+| [`/uprate launch-producthunt`](#uprate-launch-producthunt--product-hunt-launch) | Product Hunt submission copy |
+
+---
+
+### 🎨 `/uprate generate-icon` - Icon Generator
 
 Generate a production-ready app icon from your codebase context:
 
-1. Analyzes your project — name, colors, platform
+1. Analyzes your project: name, colors, platform
 2. Proposes 4 icon concepts tailored to your app
 3. Generates a high-quality icon via AI
 4. Returns a shareable preview URL
 
 Guests can generate up to 2 icons without an account. [Sign up free](https://app.upratehq.com/register) to save and download.
 
-### `/uprate generate-changelog` — Release Notes Generator
+---
+
+### 📝 `/uprate generate-changelog` - Release Notes Generator
 
 Generate user-facing release notes from your git history:
 
@@ -44,34 +56,35 @@ Generate user-facing release notes from your git history:
 3. Formats for App Store, Google Play, and/or GitHub Release
 4. Outputs copy-ready text with character limits respected
 
-Works entirely locally — no API calls or accounts needed.
-### `/uprate generate-privacy-policy` — Privacy Policy Generator
+---
+
+### 🔒 `/uprate generate-privacy-policy` - Privacy Policy Generator
 
 Generate a ready-to-publish privacy policy from your codebase context:
 
 1. Scans your project for data collection practices and third-party SDKs
 2. Asks targeted questions about your business and jurisdiction
 3. Generates a plain-language privacy policy tailored to your app
-4. Saves or displays the result — ready for App Store or Google Play
+4. Saves or displays the result, ready for App Store or Google Play
 
-Works entirely offline — no external API calls required.
+---
 
-### `/uprate generate-terms-of-service` — Terms of Service Generator ✦
+### 📄 `/uprate generate-terms-of-service` - Terms of Service Generator
 
 Generate a customized Terms of Service for your mobile app:
 
-1. Analyzes your project — platform, payments, accounts, content
+1. Analyzes your project: platform, payments, accounts, content
 2. Asks clarifying questions about your app and business
 3. Generates a plain-language Terms of Service as markdown
 4. Saves the document to your project directory
 
-No external APIs — works entirely from local codebase analysis and your input.
+---
 
-### `/uprate launch-producthunt` — Product Hunt Launch ✦
+### 🚀 `/uprate launch-producthunt` - Product Hunt Launch
 
 Prepare your Product Hunt submission without leaving the terminal:
 
-1. Analyzes your project — name, description, category
+1. Analyzes your project: name, description, category
 2. Asks targeted questions about your goals and audience
 3. Generates all copy: tagline, description, topics, maker comment, first comment
 4. Provides a launch-day checklist and optionally saves everything to a file
