@@ -35,6 +35,17 @@ Generate a production-ready app icon from your codebase context:
 
 Guests can generate up to 2 icons without an account. [Sign up free](https://app.upratehq.com/register) to save and download.
 
+### `/uprate generate-changelog` — Release Notes Generator
+
+Generate user-facing release notes from your git history:
+
+1. Detects your latest tag and commit range
+2. Summarizes changes in plain English (no dev jargon)
+3. Formats for App Store, Google Play, and/or GitHub Release
+4. Outputs copy-ready text with character limits respected
+
+Works entirely locally — no API calls or accounts needed.
+
 ## Uninstall
 
 ```bash
