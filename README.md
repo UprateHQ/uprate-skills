@@ -34,7 +34,7 @@ curl -fsSL https://raw.githubusercontent.com/cleevio-agents/uprate-skills/main/i
 
 ---
 
-### `/uprate generate-icon` — Icon Generator
+### 🎨 `/uprate generate-icon` — Icon Generator
 
 Generate a production-ready app icon from your codebase context:
 
@@ -47,7 +47,7 @@ Guests can generate up to 2 icons without an account. [Sign up free](https://app
 
 ---
 
-### `/uprate generate-changelog` — Release Notes Generator
+### 📝 `/uprate generate-changelog` — Release Notes Generator
 
 Generate user-facing release notes from your git history:
 
@@ -60,7 +60,7 @@ Works entirely locally — no API calls or accounts needed.
 
 ---
 
-### `/uprate generate-privacy-policy` — Privacy Policy Generator
+### 🔒 `/uprate generate-privacy-policy` — Privacy Policy Generator
 
 Generate a ready-to-publish privacy policy from your codebase context:
 
@@ -73,7 +73,7 @@ Works entirely offline — no external API calls required.
 
 ---
 
-### `/uprate generate-terms-of-service` — Terms of Service Generator
+### 📄 `/uprate generate-terms-of-service` — Terms of Service Generator
 
 Generate a customized Terms of Service for your mobile app:
 
@@ -86,7 +86,7 @@ No external APIs — works entirely from local codebase analysis and your input.
 
 ---
 
-### `/uprate launch-producthunt` — Product Hunt Launch
+### 🚀 `/uprate launch-producthunt` — Product Hunt Launch
 
 Prepare your Product Hunt submission without leaving the terminal:
 
