@@ -68,6 +68,15 @@ Generate a customized Terms of Service for your mobile app:
 
 No external APIs — works entirely from local codebase analysis and your input.
 
+### `/uprate launch-producthunt` — Product Hunt Launch ✦
+
+Prepare your Product Hunt submission without leaving the terminal:
+
+1. Analyzes your project — name, description, category
+2. Asks targeted questions about your goals and audience
+3. Generates all copy: tagline, description, topics, maker comment, first comment
+4. Provides a launch-day checklist and optionally saves everything to a file
+
 ## Uninstall
 
 ```bash
