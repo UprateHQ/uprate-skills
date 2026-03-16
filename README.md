@@ -45,7 +45,6 @@ Generate user-facing release notes from your git history:
 4. Outputs copy-ready text with character limits respected
 
 Works entirely locally — no API calls or accounts needed.
-
 ### `/uprate generate-privacy-policy` — Privacy Policy Generator
 
 Generate a ready-to-publish privacy policy from your codebase context:
