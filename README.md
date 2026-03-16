@@ -30,6 +30,7 @@ curl -fsSL https://raw.githubusercontent.com/cleevio-agents/uprate-skills/main/i
 | [`/uprate generate-changelog`](#uprate-generate-changelog--release-notes-generator) | Release notes from git history |
 | [`/uprate generate-privacy-policy`](#uprate-generate-privacy-policy--privacy-policy-generator) | Privacy policy from codebase context |
 | [`/uprate generate-terms-of-service`](#uprate-generate-terms-of-service--terms-of-service-generator) | Terms of Service for your mobile app |
+| [`/uprate generate-eula`](#uprate-generate-eula--eula-generator) | End User License Agreement from codebase context |
 | [`/uprate launch-producthunt`](#uprate-launch-producthunt--product-hunt-launch) | Product Hunt submission copy |
 
 ---
@@ -77,6 +78,17 @@ Generate a customized Terms of Service for your mobile app:
 2. Asks clarifying questions about your app and business
 3. Generates a plain-language Terms of Service as markdown
 4. Saves the document to your project directory
+
+---
+
+### 📜 `/uprate generate-eula` - EULA Generator
+
+Generate an End User License Agreement tailored to your app:
+
+1. Scans your project for distribution channels, monetization, and features
+2. Asks targeted questions about licensing scope and jurisdiction
+3. Generates a plain-language EULA with platform-specific clauses
+4. Saves or displays the result, ready for App Store or Google Play
 
 ---
 
