@@ -19,7 +19,7 @@
 Requires [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/cleevio-agents/uprate-skills/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/UprateHQ/uprate-skills/main/install.sh | bash
 ```
 
 ## Skills
@@ -104,13 +104,13 @@ Prepare your Product Hunt submission without leaving the terminal:
 ## Uninstall
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/cleevio-agents/uprate-skills/main/uninstall.sh | bash
+curl -fsSL https://raw.githubusercontent.com/UprateHQ/uprate-skills/main/uninstall.sh | bash
 ```
 
 ---
 
 <p align="center">
   <a href="https://upratehq.com">Uprate</a> ·
-  <a href="https://github.com/cleevio-agents/uprate-skills/issues">Report an issue</a> ·
+  <a href="https://github.com/UprateHQ/uprate-skills/issues">Report an issue</a> ·
   <a href="LICENSE">MIT License</a>
 </p>

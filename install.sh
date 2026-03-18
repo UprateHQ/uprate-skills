@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO_URL="https://github.com/cleevio-agents/uprate-skills"
+REPO_URL="https://github.com/UprateHQ/uprate-skills"
 COMMANDS_DIR="$HOME/.claude/commands"
 AGENTS_DIR="$HOME/.claude/agents"
 TMP_DIR=$(mktemp -d)
@@ -39,4 +39,4 @@ echo "Uprate Skills installed successfully!"
 echo ""
 echo "Usage: In any project, use /uprate generate-icon"
 echo ""
-echo "Docs: https://github.com/cleevio-agents/uprate-skills"
+echo "Docs: https://github.com/UprateHQ/uprate-skills"
