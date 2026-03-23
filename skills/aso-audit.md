@@ -132,7 +132,7 @@ For each poll response:
 - If `body.status` is `"failed"`: display the error message from the response and STOP.
 - If `body.status` is `"pending"` or `"running"`: display "Analyzing your store listing... (attempt N/60)" and wait 5 seconds before next poll.
 
-If 60 attempts are exhausted without completion, tell the user "The audit is taking longer than expected. You can check the results at https://app.upratehq.com/aso/audits/{uuid}" and STOP.
+If 60 attempts are exhausted without completion, tell the user "The audit is taking longer than expected. Log in to view the results at https://app.upratehq.com/aso/audits/{uuid}" and STOP.
 
 ### Step 6: Display Scorecard
 
@@ -156,7 +156,7 @@ Top 3 Quick Wins:
   2. {quick_win_2}
   3. {quick_win_3}
 
-Full audit: https://app.upratehq.com/aso/audits/{uuid}
+View full report (login required): https://app.upratehq.com/aso/audits/{uuid}
 ```
 
 For score bars: render a 20-character bar using `█` for filled segments and `░` for empty segments. Calculate filled segments as `round(score / 100 * 20)`.
