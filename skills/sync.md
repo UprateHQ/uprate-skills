@@ -198,7 +198,7 @@ If yes:
 3. Push via the `uprate-indie-push` agent with `page_type: "eula"`
 4. Show: "EULA pushed! Hosted at: {hosted_url}"
 
-### Step 7: Scan and Push Privacy Data
+### Step 7: Scan and Push Privacy Labels
 
 Spawn a privacy scanner subagent to detect SDKs and map to Apple/Google data categories:
 
@@ -213,9 +213,13 @@ Analyze the current project to detect data collection practices. Do the followin
 
 3. **Search for data collection in code** — Use the Grep tool to search for: email, location, camera, microphone, contacts, healthkit, tracking, analytics, payment, biometric, photo library, calendar, bluetooth
 
-4. **Map findings to Apple Privacy Label categories** (contact_info, health_fitness, financial_info, location, sensitive_info, contacts, user_content, browsing_history, search_history, identifiers, purchases, usage_data, diagnostics, other_data). For each: purposes array, linked_to_identity, used_to_track.
+4. **Map findings to Apple Privacy Label categories** (contact_info, health_fitness, financial_info, location, sensitive_info, contacts, user_content, browsing_history, search_history, identifiers, purchases, usage_data, diagnostics, other_data). For each data type, produce a declaration with: collected (boolean), purposes (array of: third_party_advertising, developers_advertising, analytics, product_personalization, app_functionality, other), linked_to_identity (boolean), used_to_track (boolean).
 
-5. **Map findings to Google Play Data Safety categories** (same 14 categories). For each: collected, shared, purposes array, required_or_optional.
+5. **Map findings to Google Play Data Safety categories** (location, personal_info, financial_info, health_fitness, messages, photos_videos, audio, files_docs, calendar, contacts, app_activity, web_browsing, app_info_performance, identifiers). For each data type, produce a declaration with: collected (boolean), shared (boolean), purposes (array of: app_functionality, analytics, developer_communications, advertising_marketing, fraud_prevention, personalization, account_management), required_or_optional ("required" or "optional").
+
+**IMPORTANT — declaration key format:**
+- Apple: keys are `"{category_id}.{data_type_id}"` — e.g. `"contact_info.email_address"`, `"identifiers.device_id"`, `"usage_data.product_interaction"`, `"diagnostics.crash_data"`
+- Google: keys are `"{category_id}.{data_type_id}"` — e.g. `"personal_info.email_address"`, `"identifiers.device_id"`, `"app_info_performance.crash_logs"`
 
 Return a JSON object:
 {
@@ -223,19 +227,37 @@ Return a JSON object:
   "platform": "string",
   "detected_sdks": [{"name": "...", "category": "...", "data_collected": "..."}],
   "detected_data_types": ["email", "location", ...],
-  "apple_suggestions": { "data_category_id": { "data_type_id": { "collected": true, "purposes": [], "linked_to_identity": false, "used_to_track": false } } },
-  "google_suggestions": { "data_category_id": { "data_type_id": { "collected": true, "shared": false, "purposes": [], "required_or_optional": "required" } } }
+  "apple_declarations": { "category_id.data_type_id": { "collected": true, "purposes": ["analytics"], "linked_to_identity": false, "used_to_track": false } },
+  "google_declarations": { "category_id.data_type_id": { "collected": true, "shared": false, "purposes": ["analytics"], "required_or_optional": "required" } }
 }
 ```
 
-Push results to both endpoints:
+Present a summary of what was detected:
+
+```
+### Privacy Scan Results
+
+**Detected SDKs:** {list detected_sdks with name and category}
+**Detected data types:** {list detected_data_types}
+
+**Apple Privacy Labels:** {count of collected data types} data types will be declared
+**Google Data Safety:** {count of collected data types} data types will be declared
+
+These declarations will be pushed to your Uprate project and marked as complete.
+```
+
+Push results to both endpoints. The payload includes both raw scan data (`cc_scan_data`) and the generated declarations, plus `completed_at` to auto-mark as complete:
 
 ```
 Use the Agent tool with subagent_type "general-purpose" and name "uprate-indie-push":
 Prompt: Read the agent instructions at ~/.claude/agents/uprate-indie-push.md and follow them.
 Operation: push_scan_privacy
 project_uuid: {uuid}
-payload: {"cc_scan_data": {"detected_sdks": [<sdks>], "detected_data_types": [<types>], "suggested_declarations": {<apple_suggestions>}}}
+payload: {
+  "cc_scan_data": {"detected_sdks": [<sdks>], "detected_data_types": [<types>], "suggested_declarations": {<apple_declarations>}},
+  "declarations": {<apple_declarations>},
+  "completed_at": "<current ISO 8601 datetime>"
+}
 ```
 
 ```
@@ -243,10 +265,16 @@ Use the Agent tool with subagent_type "general-purpose" and name "uprate-indie-p
 Prompt: Read the agent instructions at ~/.claude/agents/uprate-indie-push.md and follow them.
 Operation: push_scan_data_safety
 project_uuid: {uuid}
-payload: {"cc_scan_data": {"detected_sdks": [<sdks>], "detected_data_types": [<types>], "suggested_declarations": {<google_suggestions>}}}
+payload: {
+  "cc_scan_data": {"detected_sdks": [<sdks>], "detected_data_types": [<types>], "suggested_declarations": {<google_declarations>}},
+  "declarations": {<google_declarations>},
+  "encrypted_in_transit": true,
+  "deletion_mechanism": false,
+  "completed_at": "<current ISO 8601 datetime>"
+}
 ```
 
-Show: "Privacy scan data pushed — your Privacy Labels and Data Safety forms will be pre-filled."
+Show: "Privacy Labels and Data Safety forms generated and pushed — both marked as complete. You can review and adjust them in the web app."
 
 ### Step 8: Generate and Push App Icon
 
@@ -266,13 +294,18 @@ If yes:
 7. Submit to `POST https://app.upratehq.com/api/cli/generate` with `app_description`, `icon_description`, `style_id`, and `colors`.
 8. Parse the response for `request_id` and build the preview URL: `https://app.upratehq.com/icons/new/{request_id}` (or use `view_url` if returned).
 9. Show: "Your icon is generating! Preview it here: {preview_url}"
-10. Push icon URL to the project:
+10. Poll for the generated image URL by running (via Bash) every 5 seconds for up to 60 seconds:
+    ```bash
+    curl -s -H "Accept: application/json" "https://app.upratehq.com/api/cli/generate/{request_id}/status"
+    ```
+    This endpoint is public (no auth required). Check the response for `status`. When status is `"completed"`, extract the first `image_url` from the `generated_icons` array (format: `[{"id": "...", "image_url": "..."}]`). If polling times out after 60 seconds, fall back to using the preview URL and warn the user.
+11. Push the **direct image URL** (not the preview page URL) to the project:
     ```
     Use the Agent tool with subagent_type "general-purpose" and name "uprate-indie-push":
     Prompt: Read the agent instructions at ~/.claude/agents/uprate-indie-push.md and follow them.
     Operation: push_icon
     project_uuid: {uuid}
-    payload: {"icon_url": "<preview_url>"}
+    payload: {"icon_url": "<image_url>"}
     ```
 
 ### Step 9: Generate and Push What's New
