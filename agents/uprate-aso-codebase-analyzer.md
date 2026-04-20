@@ -47,13 +47,18 @@ Detect based on file presence:
 - **flutter**: `pubspec.yaml` with `flutter` dependency
 - **react-native**: `app.json` with React Native config, `react-native` in `package.json` dependencies
 
-### Category
+### Categories
 Infer from:
 - Dependencies in `package.json` / `pubspec.yaml` / `build.gradle`
 - README content
 - Directory names and file structure
 - `fastlane/metadata/**/primary_category.txt`
-- Use App Store categories: `Books`, `Business`, `Developer Tools`, `Education`, `Entertainment`, `Finance`, `Food & Drink`, `Games`, `Graphics & Design`, `Health & Fitness`, `Lifestyle`, `Medical`, `Music`, `Navigation`, `News`, `Photo & Video`, `Productivity`, `Reference`, `Shopping`, `Social Networking`, `Sports`, `Travel`, `Utilities`, `Weather`
+
+Pick the most fitting **primary** and **secondary** category for each platform. The secondary should complement the primary (e.g., a fitness social app → primary Health & Fitness, secondary Social Networking).
+
+**iOS App Store categories:** Books, Business, Developer Tools, Education, Entertainment, Finance, Food & Drink, Games, Graphics & Design, Health & Fitness, Lifestyle, Kids, Magazines & Newspapers, Medical, Music, Navigation, News, Photo & Video, Productivity, Reference, Shopping, Social Networking, Sports, Stickers, Travel, Utilities, Weather
+
+**Google Play categories:** Art & Design, Auto & Vehicles, Beauty, Books & Reference, Business, Comics, Communication, Dating, Education, Entertainment, Events, Finance, Food & Drink, Health & Fitness, House & Home, Libraries & Demo, Lifestyle, Maps & Navigation, Medical, Music & Audio, News & Magazines, Parenting, Personalization, Photography, Productivity, Shopping, Social, Sports, Tools, Travel & Local, Video Players & Editors, Weather
 
 ### Permissions
 Scan for permission declarations:
@@ -95,6 +100,24 @@ Scan for permission declarations:
 4. Most recent entry in `HISTORY.md`
 5. If none found, return `null`
 
+### Developer Name
+1. `package.json` → `author` field (if string, extract name before `<email>`; if object, use `name`)
+2. `app.json` → `expo.owner` or `owner`
+3. `pubspec.yaml` → `author`
+4. `fastlane/Appfile` → look for developer/company name
+5. Git config: run `git config user.name` as fallback
+
+### Developer Email
+1. `package.json` → `author` field (extract email from `<email>` pattern; if object, use `email`)
+2. `pubspec.yaml` → `author` (extract email if present)
+3. `fastlane/Appfile` → `apple_id` (often an email)
+4. Git config: run `git config user.email` as fallback
+
+### Developer Website
+1. `package.json` → `homepage` field
+2. `app.json` → `expo.githubUrl` or links
+3. README.md → first URL that looks like a project homepage (not github.com)
+
 ## Output Format
 
 After gathering all data, output EXACTLY this JSON block (and nothing else before or after it):
@@ -105,13 +128,19 @@ After gathering all data, output EXACTLY this JSON block (and nothing else befor
   "description": "string or null (max 200 chars, concise)",
   "features": ["string"] or [],
   "platforms": ["ios", "android", "flutter", "react-native"] (any subset detected),
-  "category": "string or null",
+  "primary_category_ios": "string or null (must be from iOS list)",
+  "secondary_category_ios": "string or null (must be from iOS list, different from primary)",
+  "primary_category_android": "string or null (must be from Google Play list)",
+  "secondary_category_android": "string or null (must be from Google Play list, different from primary)",
   "permissions": ["camera", "location", "push-notifications", ...] or [],
   "appStoreId": "string or null",
   "bundleIdApple": "string or null",
   "bundleIdAndroid": "string or null",
   "version": "string or null",
   "recentChangelog": "string or null (max 500 chars)",
+  "developerName": "string or null",
+  "developerEmail": "string or null",
+  "developerWebsite": "string or null",
   "confidence": "high | medium | low"
 }
 ```

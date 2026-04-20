@@ -102,7 +102,6 @@ Generated Terms of Service for {appName}:
 
 Use AskUserQuestion with options:
 - "Save as TERMS_OF_SERVICE.md"
-- "Save as terms-of-service.md"
 - "Don't save, I'll copy it"
 
 If the user chooses to save, write the file to the current working directory using the chosen filename.

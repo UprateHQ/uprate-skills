@@ -174,7 +174,7 @@ Then ask the user where to save it:
 Would you like to save this to a file?
 ```
 
-Use AskUserQuestion with options: "Save as PRIVACY_POLICY.md", "Save as privacy-policy.md", "Don't save, I'll copy it"
+Use AskUserQuestion with options: "Save as PRIVACY_POLICY.md", "Don't save, I'll copy it"
 
 If the user chooses to save, write the file to the current working directory using the Write tool.
 

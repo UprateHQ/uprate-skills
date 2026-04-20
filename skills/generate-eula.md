@@ -123,7 +123,6 @@ Generated EULA for {appName}:
 
 Use AskUserQuestion with options:
 - "Save as EULA.md"
-- "Save as eula.md"
 - "Don't save, I'll copy it"
 
 If the user chooses to save, write the file to the current working directory using the chosen filename.

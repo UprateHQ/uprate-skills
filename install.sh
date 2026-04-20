@@ -37,6 +37,6 @@ fi
 echo ""
 echo "Uprate Skills installed successfully!"
 echo ""
-echo "Usage: In any project, use /uprate generate-icon"
+echo "Usage: In any project, use /uprate generate-icon or /uprate generate-descriptions"
 echo ""
 echo "Docs: https://github.com/UprateHQ/uprate-skills"

@@ -108,22 +108,35 @@ Parse the subagent's response:
 - If HTTP 401: tell the user their API key is invalid and ask them to create a new one at https://app.upratehq.com/settings
 - If HTTP 429: tell the user they've reached their monthly limit and suggest upgrading at https://app.upratehq.com/settings/billing
 
-### Step 4: Show the Result
+### Step 4: Poll for Completion and Show Result
 
 Parse the response for `request_id` (UUID), and also read `view_url` if the API already returns it.
 
-Build the final preview link like this:
+Build the preview link:
 
 1. If `view_url` exists in the response, use it.
 2. If `view_url` is missing but `request_id` exists, build: `https://app.upratehq.com/icons/new/{request_id}`.
 3. If neither exists, show an error and ask the user to retry generation.
 
+Show the user: "Your icon is generating! Preview it here: {preview_url}"
+
+**Poll for the generated image URL** by running (via Bash) every 5 seconds for up to 60 seconds:
+
+```bash
+curl -s -H "Accept: application/json" "https://app.upratehq.com/api/cli/generate/{request_id}/status"
+```
+
+This endpoint is public (no auth required). Check the response for `status`. When status is `"completed"`, extract the first `image_url` from the `generated_icons` array (format: `[{"id": "...", "image_url": "..."}]`). This is the **direct image URL** for the generated icon.
+
+If polling times out after 60 seconds, fall back to the preview URL and warn the user that the icon may still be generating.
+
 Show the user:
 
 ```
-Your icon is generating! It should be ready in about 30 seconds.
+Your icon is ready!
 
 Preview it here: {preview_url}
+Direct image: {image_url}
 
 You can preview without an account.
 Want to save this icon to your account or download it? Sign in or create a free account from that page.

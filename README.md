@@ -32,6 +32,8 @@ curl -fsSL https://raw.githubusercontent.com/UprateHQ/uprate-skills/main/install
 | [`/uprate generate-terms-of-service`](#uprate-generate-terms-of-service--terms-of-service-generator) | Terms of Service for your mobile app |
 | [`/uprate generate-eula`](#uprate-generate-eula--eula-generator) | End User License Agreement from codebase context |
 | [`/uprate launch-producthunt`](#uprate-launch-producthunt--product-hunt-launch) | Product Hunt submission copy |
+| [`/uprate generate-descriptions`](#uprate-generate-descriptions--descriptions-generator) | Generate App Store and Google Play descriptions from your codebase |
+| [`/uprate scan-privacy`](#uprate-scan-privacy--privacy-scanner) | Scan your codebase for data collection practices and generate Privacy Labels and Data Safety suggestions |
 
 ---
 
@@ -100,6 +102,28 @@ Prepare your Product Hunt submission without leaving the terminal:
 2. Asks targeted questions about your goals and audience
 3. Generates all copy: tagline, description, topics, maker comment, first comment
 4. Provides a launch-day checklist and optionally saves everything to a file
+
+### ✍️ `/uprate generate-descriptions` - Descriptions Generator
+
+Generate App Store and Google Play descriptions from your codebase:
+
+1. Scans your project for features, monetization model, and target audience
+2. Asks clarifying questions about tone, keywords, and platform requirements
+3. Generates optimized short and long descriptions for both stores
+4. Respects character limits and store-specific guidelines
+
+---
+
+### 🔍 `/uprate scan-privacy` - Privacy Scanner
+
+Scan your codebase for data collection practices and generate Privacy Labels and Data Safety suggestions:
+
+1. Scans your project for data collection, third-party SDKs, and tracking usage
+2. Maps findings to Apple Privacy Labels and Google Data Safety categories
+3. Generates copyable form answers ready for App Store Connect and Google Play Console
+4. Highlights any gaps or items requiring manual review
+
+---
 
 ## Uninstall
 
