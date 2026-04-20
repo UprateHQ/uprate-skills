@@ -32,9 +32,8 @@ curl -fsSL https://raw.githubusercontent.com/UprateHQ/uprate-skills/main/install
 | [`/uprate generate-terms-of-service`](#uprate-generate-terms-of-service--terms-of-service-generator) | Terms of Service for your mobile app |
 | [`/uprate generate-eula`](#uprate-generate-eula--eula-generator) | End User License Agreement from codebase context |
 | [`/uprate launch-producthunt`](#uprate-launch-producthunt--product-hunt-launch) | Product Hunt submission copy |
-| [`/uprate sync`](#uprate-sync--sync-to-uprate) | Scan your codebase and sync all generated content to your Uprate project |
 | [`/uprate generate-descriptions`](#uprate-generate-descriptions--descriptions-generator) | Generate App Store and Google Play descriptions from your codebase |
-| [`/uprate scan-privacy`](#uprate-scan-privacy--privacy-scanner) | Scan your codebase for data collection practices and pre-fill Privacy Labels and Data Safety forms |
+| [`/uprate scan-privacy`](#uprate-scan-privacy--privacy-scanner) | Scan your codebase for data collection practices and generate Privacy Labels and Data Safety suggestions |
 
 ---
 
@@ -104,17 +103,6 @@ Prepare your Product Hunt submission without leaving the terminal:
 3. Generates all copy: tagline, description, topics, maker comment, first comment
 4. Provides a launch-day checklist and optionally saves everything to a file
 
-### 🔄 `/uprate sync` - Sync to Uprate
-
-Scan your codebase and sync all generated content to your Uprate project:
-
-1. Analyzes your project for all Uprate-generated assets and metadata
-2. Connects to your Uprate account and project
-3. Pushes all generated content (icons, descriptions, changelogs, legal docs) in one go
-4. Reports what was synced and flags any missing or outdated items
-
----
-
 ### ✍️ `/uprate generate-descriptions` - Descriptions Generator
 
 Generate App Store and Google Play descriptions from your codebase:
@@ -128,11 +116,11 @@ Generate App Store and Google Play descriptions from your codebase:
 
 ### 🔍 `/uprate scan-privacy` - Privacy Scanner
 
-Scan your codebase for data collection practices and pre-fill Privacy Labels and Data Safety forms:
+Scan your codebase for data collection practices and generate Privacy Labels and Data Safety suggestions:
 
 1. Scans your project for data collection, third-party SDKs, and tracking usage
 2. Maps findings to Apple Privacy Labels and Google Data Safety categories
-3. Generates pre-filled form answers ready for App Store Connect and Google Play Console
+3. Generates copyable form answers ready for App Store Connect and Google Play Console
 4. Highlights any gaps or items requiring manual review
 
 ---

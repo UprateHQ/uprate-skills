@@ -96,51 +96,10 @@ Use AskUserQuestion with options: "Looks good" and "I want to adjust" (with Othe
 
 ### Step 4: Output
 
-Use AskUserQuestion with options: "Push to Uprate project", "Save to DESCRIPTIONS.md", "Both (push + save)", "Don't save, I'll copy it"
+Use AskUserQuestion with options: "Save to DESCRIPTIONS.md", "Don't save, I'll copy it"
 
 If saving, write all generated descriptions to `DESCRIPTIONS.md` with clear section headings.
 
 Regardless of save choice, show all descriptions in markdown so they can be copied.
-
-### Step 5: Push to Uprate Indie
-
-If the user chose "Push to Uprate project" or "Both" in Step 4:
-
-1. **Read config**: Read `~/.uprate/config.json` via Bash (`cat ~/.uprate/config.json 2>/dev/null || echo "{}"`). Check if `indie.url` and `indie.apiKey` exist.
-
-2. **Setup (if needed)**: If the `indie` block is missing:
-   - Tell the user: "To push content to your Uprate project, I need your instance URL and API key. You can create an API key at your Uprate instance under Settings > API Keys."
-   - Use AskUserQuestion to ask for the instance URL (e.g., `https://app.example.com`). Use free text input.
-   - Use AskUserQuestion to ask for the API key (starts with `uprt_`). Use free text input.
-   - Validate by running: `curl -s -w "\n%{http_code}" -H "Authorization: Bearer {apiKey}" -H "Accept: application/json" "{url}/api/v1/projects"`
-   - If the last line is `200`, save the config: read existing `~/.uprate/config.json`, merge in `{"indie": {"url": "{url}", "apiKey": "{apiKey}"}}`, write back.
-   - If not 200, tell the user the key is invalid and ask them to try again.
-
-3. **Select project**: Call `GET {url}/api/v1/projects` with Bearer auth. Parse the `data` array. Use AskUserQuestion to present each project as an option (show name and platforms). If no projects exist, tell the user to create one in the web app first.
-
-4. **Push descriptions**: Spawn the `uprate-indie-push` agent:
-   ```
-   Use the Agent tool with subagent_type "general-purpose" and name "uprate-indie-push":
-   Prompt: Read the agent instructions at ~/.claude/agents/uprate-indie-push.md and follow them.
-   Operation: push_descriptions
-   project_uuid: {selected_uuid}
-   payload: {
-     "app_description_ios": "<generated>",
-     "subtitle_ios": "<generated>",
-     "keywords_ios": "<generated>",
-     "promotional_text_ios": "<generated>",
-     "app_description_android": "<generated>",
-     "short_description_android": "<generated>",
-     "copyright_text": "<generated>",
-     "tone": "<selected_tone>",
-     "primary_category_ios": "<from codebase analysis>",
-     "secondary_category_ios": "<from codebase analysis>",
-     "primary_category_android": "<from codebase analysis>",
-     "secondary_category_android": "<from codebase analysis>"
-   }
-   ```
-
-   If success, show: "Descriptions pushed to your Uprate project!"
-   If error, show the error message.
 
 Done! Do not proceed with any additional steps unless the user asks.

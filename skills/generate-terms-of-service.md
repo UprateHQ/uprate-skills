@@ -101,41 +101,11 @@ Generated Terms of Service for {appName}:
 ```
 
 Use AskUserQuestion with options:
-- "Push to Uprate project"
 - "Save as TERMS_OF_SERVICE.md"
-- "Both (push + save)"
 - "Don't save, I'll copy it"
 
-If the user chooses to save (i.e. "Save as TERMS_OF_SERVICE.md" or "Both (push + save)"), write the file to the current working directory using the chosen filename.
+If the user chooses to save, write the file to the current working directory using the chosen filename.
 
 Regardless of the save choice, show the full Terms of Service in a markdown code block.
-
-### Step 5: Push to Uprate Indie
-
-If the user chose "Push to Uprate project" or "Both (push + save)" in Step 4:
-
-1. **Read config**: Read `~/.uprate/config.json` via Bash (`cat ~/.uprate/config.json 2>/dev/null || echo "{}"`). Check if `indie.url` and `indie.apiKey` exist.
-
-2. **Setup (if needed)**: If the `indie` block is missing:
-   - Tell the user: "To push content to your Uprate project, I need your instance URL and API key. You can create an API key at your Uprate instance under Settings > API Keys."
-   - Use AskUserQuestion to ask for the instance URL (e.g., `https://app.example.com`). Use free text input.
-   - Use AskUserQuestion to ask for the API key (starts with `uprt_`). Use free text input.
-   - Validate by running: `curl -s -w "\n%{http_code}" -H "Authorization: Bearer {apiKey}" -H "Accept: application/json" "{url}/api/v1/projects"`
-   - If the last line is `200`, save the config: read existing `~/.uprate/config.json`, merge in `{"indie": {"url": "{url}", "apiKey": "{apiKey}"}}`, write back.
-   - If not 200, tell the user the key is invalid and ask them to try again.
-
-3. **Select project**: Call `GET {url}/api/v1/projects` with Bearer auth. Parse the `data` array. Use AskUserQuestion to present each project as an option (show name and platforms). If no projects exist, tell the user to create one in the web app first.
-
-4. **Push Terms of Service**: Spawn the `uprate-indie-push` agent:
-   ```
-   Use the Agent tool with subagent_type "general-purpose" and name "uprate-indie-push":
-   Prompt: Read the agent instructions at ~/.claude/agents/uprate-indie-push.md and follow them.
-   Operation: push_legal
-   project_uuid: {selected_uuid}
-   payload: {"content_markdown": "<the full generated Terms of Service>", "source": "cc_skill", "page_type": "terms_of_service"}
-   ```
-
-   Parse the result. If success, show: "Terms of Service pushed to your Uprate project! Hosted at: {hosted_url}"
-   If error, show the error message.
 
 Done! Do not proceed with any additional steps unless the user asks.

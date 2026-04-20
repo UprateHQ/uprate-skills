@@ -1,11 +1,11 @@
 ---
 name: scan-privacy
-description: Scan your codebase for data collection practices and pre-fill Privacy Labels and Data Safety forms
+description: Scan your codebase for data collection practices and generate Privacy Labels and Data Safety suggestions
 ---
 
 # Uprate Privacy Scanner
 
-Scan your project for SDKs and data collection patterns to pre-fill Apple Privacy Labels and Google Play Data Safety forms.
+Scan your project for SDKs and data collection patterns to generate Apple Privacy Labels and Google Play Data Safety suggestions.
 
 ## Instructions
 
@@ -112,40 +112,27 @@ Use AskUserQuestion with options: "Looks correct" and "I want to adjust" (with O
 
 If the user wants to adjust, incorporate their changes before proceeding.
 
-### Step 3: Push to Uprate Indie
+### Step 3: Output the Suggestions
 
-1. **Read config**: Read `~/.uprate/config.json` via Bash (`cat ~/.uprate/config.json 2>/dev/null || echo "{}"`). Check if `indie.url` and `indie.apiKey` exist.
+Show the final results in a copyable format:
 
-2. **Setup (if needed)**: If the `indie` block is missing:
-   - Tell the user: "To push content to your Uprate project, I need your instance URL and API key. You can create an API key at your Uprate instance under Settings > API Keys."
-   - Use AskUserQuestion to ask for the instance URL (e.g., `https://app.example.com`). Use free text input.
-   - Use AskUserQuestion to ask for the API key (starts with `uprt_`). Use free text input.
-   - Validate by running: `curl -s -w "\n%{http_code}" -H "Authorization: Bearer {apiKey}" -H "Accept: application/json" "{url}/api/v1/projects"`
-   - If the last line is `200`, save the config: read existing `~/.uprate/config.json`, merge in `{"indie": {"url": "{url}", "apiKey": "{apiKey}"}}`, write back.
-   - If not 200, tell the user the key is invalid and ask them to try again.
+1. Present a short summary:
+   - Total detected SDKs
+   - Total detected data types
+   - Number of Apple Privacy Label declarations suggested
+   - Number of Google Data Safety declarations suggested
 
-3. **Select project**: Call `GET {url}/api/v1/projects` with Bearer auth. Parse the `data` array. Use AskUserQuestion to present each project as an option (show name and platforms). If no projects exist, tell the user to create one in the web app first.
+2. Show the suggested Apple declarations and Google declarations in markdown code blocks so they can be copied into another tool or saved locally.
 
-4. **Push Apple Privacy Labels scan data**: Spawn the `uprate-indie-push` agent:
-   ```
-   Use the Agent tool with subagent_type "general-purpose" and name "uprate-indie-push":
-   Prompt: Read the agent instructions at ~/.claude/agents/uprate-indie-push.md and follow them.
-   Operation: push_scan_privacy
-   project_uuid: {selected_uuid}
-   payload: {"cc_scan_data": {"detected_sdks": [<sdks>], "detected_data_types": [<types>], "suggested_declarations": {<apple_suggestions>}}}
-   ```
+3. Use AskUserQuestion with options:
+   - "Save as PRIVACY_SCAN.md"
+   - "Don't save, I'll copy it"
 
-5. **Push Google Data Safety scan data**: Spawn the `uprate-indie-push` agent:
-   ```
-   Use the Agent tool with subagent_type "general-purpose" and name "uprate-indie-push":
-   Prompt: Read the agent instructions at ~/.claude/agents/uprate-indie-push.md and follow them.
-   Operation: push_scan_data_safety
-   project_uuid: {selected_uuid}
-   payload: {"cc_scan_data": {"detected_sdks": [<sdks>], "detected_data_types": [<types>], "suggested_declarations": {<google_suggestions>}}}
-   ```
-
-Show results:
-- If both succeeded: "Scan data pushed! Your Privacy Labels and Data Safety forms will be pre-filled in your Uprate project."
-- If either failed, show the specific error.
+4. If saving, write a markdown report containing:
+   - App name and platform
+   - Detected SDKs
+   - Detected data types
+   - Apple Privacy Label suggestions
+   - Google Data Safety suggestions
 
 Done! Do not proceed with any additional steps unless the user asks.
