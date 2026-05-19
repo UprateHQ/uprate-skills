@@ -34,6 +34,7 @@ curl -fsSL https://raw.githubusercontent.com/UprateHQ/uprate-skills/main/install
 | [`/uprate launch-producthunt`](#uprate-launch-producthunt--product-hunt-launch) | Product Hunt submission copy |
 | [`/uprate generate-descriptions`](#uprate-generate-descriptions--descriptions-generator) | Generate App Store and Google Play descriptions from your codebase |
 | [`/uprate scan-privacy`](#uprate-scan-privacy--privacy-scanner) | Scan your codebase for data collection practices and generate Privacy Labels and Data Safety suggestions |
+| [`/uprate setup-pricing-keys`](#uprate-setup-pricing-keys--pricing-keys-setup) | Walk through getting the App Store Connect + Google Play credentials Uprate needs to change app pricing |
 
 ---
 
@@ -122,6 +123,18 @@ Scan your codebase for data collection practices and generate Privacy Labels and
 2. Maps findings to Apple Privacy Labels and Google Data Safety categories
 3. Generates copyable form answers ready for App Store Connect and Google Play Console
 4. Highlights any gaps or items requiring manual review
+
+---
+
+### 💲 `/uprate setup-pricing-keys` - Pricing Keys Setup
+
+Walk through getting every credential Uprate needs to change app pricing:
+
+1. Generates the App Store Connect Team API Key (.p8 + Issuer ID + Key ID + Vendor #) with the right Admin role for pricing
+2. Generates a Google Cloud service account + JSON key with Play Console Admin access
+3. Pastes everything into Uprate and confirms the green "Broad API Access" validation
+
+Overrides the Reviews-only Notion guide with the pricing-capable flow.
 
 ---
 
